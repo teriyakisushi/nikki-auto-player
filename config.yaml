@@ -1,0 +1,27 @@
+nk_app:
+  version: 1.0
+  lang: cn
+user_config:
+  score_dir: /score
+  global_bpm: 120
+  beat: 4
+  hold_threshold: 0.05
+  enable_key: C
+  exit_key: ESC
+  play_interrupt: false
+  debug: false
+  key_bind:
+  - do: a
+  - re: s
+  - mi: d
+  - fa: f
+  - so: g
+  - la: h
+  - ti: j
+  - do#: q
+  - re#: w
+  - mi#: e
+  - fa#: r
+  - so#: t
+  - la#: y
+  - ti#: u

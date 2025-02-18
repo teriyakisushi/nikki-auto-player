@@ -1,0 +1,25 @@
+nk_app:
+  version: 1.0
+user_config:
+  score_dir: F:\@git_misc\nikki_player\test\config_test\score
+  global_bpm: 120
+  beat: 4
+  hold_threshold: 0.05
+  enable_key: C
+  exit_key: ESC
+  play_interrupt: false
+  key_bind:
+  - do: a
+  - re: s
+  - mi: d
+  - fa: f
+  - so: g
+  - la: h
+  - ti: j
+  - do#: q
+  - re#: w
+  - mi#: e
+  - fa#: r
+  - so#: t
+  - la#: y
+  - ti#: u
