@@ -1,0 +1,5 @@
+loguru==0.7.2
+PyAutoGUI==0.9.54
+pywin32==306
+PyYAML==6.0.1
+rich==13.9.4
