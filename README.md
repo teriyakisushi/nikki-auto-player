@@ -1,7 +1,7 @@
 <h2 align="center">Nikki Auto Player</h2>
 
 # Overview 🌟
-This is a program that automatically plays custom music scores using instruments in the game [Infinity Nikki](). It supports creating original scores or importing existing ones.
+This is a program that automatically plays custom music scores using instruments in the game [Infinity Nikki](https://infinitynikki.nuanpaper.com/home). It supports creating original scores or importing existing ones.
 # Features ✨
 - ⌨️ 自定义按键映射
 
@@ -14,22 +14,29 @@ This is a program that automatically plays custom music scores using instruments
 # Usage 🚀
 
 **Dev**
-确保你的操作系统含有[Python 3.10+](https://www.python.org/downloads/) 环境
+确保你的操作系统含有 [Python 3.10+](https://www.python.org/downloads/) 环境，可选`pyinstaller`和`upx`
 1. Clone the repository
 ```bash
 git clone https://github.com/teriyakisushi/nikki-auto-player.git
 ```
-1. Install the required packages
+2. Install the required packages
 ```bash
 pip install -r requirements.txt
 ```
-1. Run and test the program
+3. Run and test the program
 ```bash
 python main.py
 ```
 
+**转译为windows可执行文件(*.exe)**
+```bash
+pyinstaller build.spec --clean
+```
+如果你额外添加了其他模块，可运行`gen_spec.py` 生成新的spec文件
+
+
 **User**
-1. 从 [Releases]() 处下载最新的版本
+1. 从 [Releases](https://github.com/teriyakisushi/nikki-auto-player/releases/new) 处下载最新的版本
 2. 双击 `NikkiAutoPlayer.exe` 运行该程序（或者在终端中运行以下命令）
 ```bash
 ./NikkiAutoPlayer.exe
