@@ -45,8 +45,8 @@ python main.py
 - `global_bpm`: 全局BPM, 默认为`120`
 - `beat`: 乐谱的拍子数, 默认为`4`，即4/4拍
 - `hold_threshold`: 长按阈值, 默认为 0.05s
-- `enable_key`：启动演奏按键（当前版本无效）
-- `exit_key`：退出演奏按键（当前版本无效）
+- `enable_key`：启动演奏按键
+- `exit_key`：退出演奏按键
 - `play_interput`：演奏中断按键（当前版本无效）
 - `debug`: true/false, 调试模式(输出日志)
 - `key_bind`: 按键映射表

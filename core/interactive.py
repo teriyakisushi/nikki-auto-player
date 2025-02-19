@@ -1,6 +1,8 @@
 import sys
+import time
+import msvcrt
 from pathlib import Path
-from core import config, score, Melody, play
+from core import config, score, Melody, play, press_key as pk
 from utils import tools
 from utils.logs import log
 from loguru import logger
@@ -8,9 +10,11 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 import rich.box as box
-from rich import print as rprint
+# from rich import print as rprint
 
 console = Console()
+enable = tools.get_vk_code(config.enable_key)
+exit_code = tools.get_vk_code(config.exit_key)
 
 
 def is_config_not_exists() -> bool:
@@ -56,38 +60,57 @@ def _choose_option() -> int:
     elif op == "4":
         # rprint("[bright_yellow]See you 😊! [/bright_yellow]")
         # logger.info("Closing...")
-        log("See you 😊!", style="yellow", level="INFO")
+        log("See you 😊!", style="bright_yellow", level="INFO")
         sys.exit(0)
     else:
         # rprint("[red]Invalid option[/red]")
         # logger.error("Invalid option")
-        log("Invalid option", style="red", level="ERROR")
+        log("Invalid option", style="bright_red", level="ERROR")
 
 
-def _ask_if_continue() -> int:
-    print("\n1. Replay")
-    print("2. 选择其他乐谱")
+def _wait_for_action() -> int:
+    """
+    Returns:
+        int: 0 - Menu
+             1 - Choose another melody
+             2 - Replay
+    """
+    log(f"\n按下启动键 {config.enable_key} 重新演奏，或输入选项:", style="cyan", level="INFO")
     print("0. 返回主菜单")
-    answer = input("Choose an option: ")
+    print("1. 选择其他乐谱")
+    op = ""
 
-    if answer == "1":
-        return 1
-    elif answer == "2":
-        return 2
-    elif answer == "0":
-        return 0
-    else:
-        # rprint("[red]Invalid option, returning to main menu...[/red]")
-        # logger.error("Invalid option, returning to main menu...")
-        log("Invalid option, returning to main menu...", style="red", level="ERROR")
-        return 0
+    while True:
+        if pk.is_key_pressed(enable):
+            return 2
+
+        # if pk.is_key_pressed(exit_code):
+        #     return 0
+
+        if msvcrt.kbhit():
+            char = msvcrt.getch().decode('utf-8')
+
+            if char == '\r':
+                if op == "0":
+                    return 0
+                elif op == "1":
+                    return 1
+                else:
+                    log("ERROR: Invalid op!", style="bright_red", level="ERROR")
+                op = ""
+            elif char == '\b':
+                op = op[:-1]
+                print('\r' + ' ' * 20 + '\r' + op, end='', flush=True)
+            elif char.isdigit():
+                op += char
+                print(char, end='', flush=True)
+
+        time.sleep(0.05)
 
 
 def _start_():
     while True:
         score_list = score.get_score_list()
-        # rprint("[yellow] 选择需要演奏的乐曲 (输入0返回)[/yellow]")
-        # logger.info("选择需要演奏的乐曲 (输入0返回)")
         log("选择需要演奏的乐曲 (输入0返回)", style="yellow", level="INFO")
         for i, s in enumerate(score_list):
             print(f"{i + 1}. {s}")
@@ -101,25 +124,43 @@ def _start_():
 
             if 1 <= score_num <= len(score_list):
                 melody = Melody(score.score_files[score_num - 1])
-                rprint(f"[green]Loaded {melody.music_name}[/green]")
+                log(f"已加载乐曲: {melody.music_name}, 按下{config.enable_key}键开启演奏", style="bright_green", level="INFO")
 
                 while True:
-                    play.melody_play(melody)
-                    choice = _ask_if_continue()
-
-                    if choice == 0:
-                        return
-                    elif choice == 2:
+                    # wait for start
+                    if not _wait_for_key():
+                        log("Action: 取消演奏", level="INFO")
                         break
 
+                    try:
+                        play.melody_play(melody)
+                    except Exception as e:
+                        log(f"ERROR: 演奏出错: {str(e)}", style="bright_red", level="ERROR")
+
+                    action = _wait_for_action()
+                    if action == 2:
+                        continue
+                    elif action == 1:
+                        break
+                    else:
+                        return
+
             else:
-                # rprint("[red]Invalid score number![/red]")
-                # logger.error("Invalid score number!")
-                log("Invalid score number!", style="red", level="ERROR")
+                log("ERROR: 无效的乐谱编号!", style="bright_red", level="ERROR")
         except ValueError:
-            # rprint("[red]Please enter a valid number![/red]")
-            # logger.error("Please enter a valid number!")
-            log("Please enter a valid number!", style="red", level="ERROR")
+            log("ERROR: 请输入有效的数字!", style="bright_red", level="ERROR")
+
+
+def _wait_for_key() -> bool:
+    # enable_code = ord(config.enable_key.upper())
+    # exit_code = ord(config.exit_key.upper())
+
+    while True:
+        if pk.is_key_pressed(enable):
+            log(f"{config.enable_key} Pressed, Starting", style="bright_green", level="SUCCESS")
+            return True
+        if pk.is_key_pressed(exit_code):
+            return False
 
 
 def _check_():
@@ -133,7 +174,7 @@ def _import_():
     if not trans_dir.exists():
         # rprint("[red]Trans dir not exists! check your file![/red]")
         # logger.error("Trans dir not exists! check your file!")
-        log("Trans dir not exists! check your file!", style="red", level="ERROR")
+        log("ERROR: Trans dir not exists! check your file!", style="bright_red", level="ERROR")
         return
 
     files_process = [
@@ -144,7 +185,7 @@ def _import_():
     if not files_process:
         # rprint("[yellow]没有找到可转换的文件[/yellow]")
         # logger.warning("没有找到可转换的文件")
-        log("没有找到可转换的文件", style="yellow", level="WARNING")
+        log("WARNING: 没有找到可转换的文件", style="bright_yellow", level="WARNING")
         return
 
     file_cnt = 0
@@ -157,17 +198,17 @@ def _import_():
         except Exception as e:
             # rprint(f"[red]处理 {file.name} 时出错: {str(e)}[/red]")
             # logger.error(f"处理 {file.name} 时出错: {str(e)}")
-            log(f"处理 {file.name} 时出错: {str(e)}", style="red", level="ERROR")
+            log(f"ERROR: 处理 {file.name} 时出错: {str(e)}", style="bright_red", level="ERROR")
             continue
 
     if file_cnt:
         # rprint(f"[green]成功转换 {file_cnt} 个文件[/green]")
         # logger.success(f"成功转换 {file_cnt} 个文件")
-        log(f"成功转换 {file_cnt} 个文件", style="green", level="SUCCESS")
+        log(f"SUCCESS: 成功转换 {file_cnt} 个文件", style="bright_green", level="SUCCESS")
     else:
         # rprint("[yellow]没有找到可转换的文件[/yellow]")
         # logger.warning("没有找到可转换的文件")
-        log("没有找到可转换的文件", style="yellow", level="WARNING")
+        log("WARNING: 没有找到可转换的文件", style="bright_yellow", level="WARNING")
 
 
 def init():
@@ -178,6 +219,7 @@ def init():
     trans_dir = Path("trans")
     try:
         trans_dir.mkdir(exist_ok=True)
+
     except Exception as e:
         print(e)
         sys.exit(1)

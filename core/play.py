@@ -11,10 +11,15 @@ GLOBAL_BPM = config.global_bpm
 
 
 def melody_play(melody: Melody):
+    '''
+    Returns:
+        bool: True - done
+              False - interrupt or exit
+    '''
     pyautogui.FAILSAFE = True
     # rprint("[bright]Playing melody...[/bright]")
     # logger.info("Playing melody...")
-    log("Playing melody...", level="INFO")
+    log("Action: Playing melody...", level="INFO")
     next_note_time = time.time()
     cur_notes = []  # this section's notes
     current_bpm = melody.bpm
@@ -27,6 +32,11 @@ def melody_play(melody: Melody):
     # logger.info(pmelody)
 
     for i, (note, beat_value) in enumerate(pmelody):
+        # check if exit
+        if pk.is_key_pressed(tools.get_vk_code(config.exit_key)):
+            log("演奏已中断", style="bright_yellow", level="INFO")
+            return
+
         cur_time = time.time()
         if cur_time < next_note_time:
             time.sleep(next_note_time - cur_time)
