@@ -1,3 +1,4 @@
+music_name senbenzakura
 bpm 154
 @@ l18l1
 6#__

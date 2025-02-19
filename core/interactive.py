@@ -2,6 +2,7 @@ import sys
 from pathlib import Path
 from core import config, score, Melody, play
 from utils import tools
+from utils.logs import log
 from loguru import logger
 from rich.console import Console
 from rich.panel import Panel
@@ -53,12 +54,14 @@ def _choose_option() -> int:
     elif op == "3":
         return 3
     elif op == "4":
-        rprint("[bright_yellow]See you 😊! [/bright_yellow]")
-        logger.info("Closing...")
+        # rprint("[bright_yellow]See you 😊! [/bright_yellow]")
+        # logger.info("Closing...")
+        log("See you 😊!", style="yellow", level="INFO")
         sys.exit(0)
     else:
-        rprint("[red]Invalid option[/red]")
-        logger.error("Invalid option")
+        # rprint("[red]Invalid option[/red]")
+        # logger.error("Invalid option")
+        log("Invalid option", style="red", level="ERROR")
 
 
 def _ask_if_continue() -> int:
@@ -74,16 +77,18 @@ def _ask_if_continue() -> int:
     elif answer == "0":
         return 0
     else:
-        rprint("[red]Invalid option, returning to main menu...[/red]")
-        logger.error("Invalid option, returning to main menu...")
+        # rprint("[red]Invalid option, returning to main menu...[/red]")
+        # logger.error("Invalid option, returning to main menu...")
+        log("Invalid option, returning to main menu...", style="red", level="ERROR")
         return 0
 
 
 def _start_():
     while True:
         score_list = score.get_score_list()
-        rprint("[yellow] 选择需要演奏的乐曲 (输入0返回)[/yellow]")
-        logger.info("选择需要演奏的乐曲 (输入0返回)")
+        # rprint("[yellow] 选择需要演奏的乐曲 (输入0返回)[/yellow]")
+        # logger.info("选择需要演奏的乐曲 (输入0返回)")
+        log("选择需要演奏的乐曲 (输入0返回)", style="yellow", level="INFO")
         for i, s in enumerate(score_list):
             print(f"{i + 1}. {s}")
             logger.info(f"{i + 1}. {s}")
@@ -108,11 +113,13 @@ def _start_():
                         break
 
             else:
-                rprint("[red]Invalid score number![/red]")
-                logger.error("Invalid score number!")
+                # rprint("[red]Invalid score number![/red]")
+                # logger.error("Invalid score number!")
+                log("Invalid score number!", style="red", level="ERROR")
         except ValueError:
-            rprint("[red]Please enter a valid number![/red]")
-            logger.error("Please enter a valid number!")
+            # rprint("[red]Please enter a valid number![/red]")
+            # logger.error("Please enter a valid number!")
+            log("Please enter a valid number!", style="red", level="ERROR")
 
 
 def _check_():
@@ -120,12 +127,13 @@ def _check_():
 
 
 def _import_():
-    rprint("[cyan]请将旋律文件放入目录下的 trans 文件夹中[/cyan]")
+    # rprint("[cyan]请将旋律文件放入目录下的 trans 文件夹中[/cyan]")
     trans_dir = Path("trans")
 
     if not trans_dir.exists():
-        rprint("[red]Trans dir not exists! check your file![/red]")
-        logger.error("Trans dir not exists! check your file!")
+        # rprint("[red]Trans dir not exists! check your file![/red]")
+        # logger.error("Trans dir not exists! check your file!")
+        log("Trans dir not exists! check your file!", style="red", level="ERROR")
         return
 
     files_process = [
@@ -134,8 +142,9 @@ def _import_():
     ]
 
     if not files_process:
-        rprint("[yellow]没有找到可转换的文件[/yellow]")
-        logger.warning("没有找到可转换的文件")
+        # rprint("[yellow]没有找到可转换的文件[/yellow]")
+        # logger.warning("没有找到可转换的文件")
+        log("没有找到可转换的文件", style="yellow", level="WARNING")
         return
 
     file_cnt = 0
@@ -146,16 +155,19 @@ def _import_():
                 file_cnt += 1
 
         except Exception as e:
-            rprint(f"[red]处理 {file.name} 时出错: {str(e)}[/red]")
-            logger.error(f"处理 {file.name} 时出错: {str(e)}")
+            # rprint(f"[red]处理 {file.name} 时出错: {str(e)}[/red]")
+            # logger.error(f"处理 {file.name} 时出错: {str(e)}")
+            log(f"处理 {file.name} 时出错: {str(e)}", style="red", level="ERROR")
             continue
 
     if file_cnt:
-        rprint(f"[green]成功转换 {file_cnt} 个文件[/green]")
-        logger.success(f"成功转换 {file_cnt} 个文件")
+        # rprint(f"[green]成功转换 {file_cnt} 个文件[/green]")
+        # logger.success(f"成功转换 {file_cnt} 个文件")
+        log(f"成功转换 {file_cnt} 个文件", style="green", level="SUCCESS")
     else:
-        rprint("[yellow]没有找到可转换的文件[/yellow]")
-        logger.warning("没有找到可转换的文件")
+        # rprint("[yellow]没有找到可转换的文件[/yellow]")
+        # logger.warning("没有找到可转换的文件")
+        log("没有找到可转换的文件", style="yellow", level="WARNING")
 
 
 def init():

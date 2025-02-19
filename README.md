@@ -35,6 +35,8 @@ python main.py
 ./NikkiAutoPlayer.exe
 ```
 
+选择，并播放Demo乐谱《千本樱》进行验证
+
 ## 编辑配置文件
 
 打开并修改`config.json`文件，编辑`user_config`字段的内容
