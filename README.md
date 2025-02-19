@@ -36,7 +36,7 @@ pyinstaller build.spec --clean
 
 
 **User**
-1. 从 [Releases](https://github.com/teriyakisushi/nikki-auto-player/releases/new) 处下载最新的版本
+1. 从 [Releases](https://github.com/teriyakisushi/nikki-auto-player/releases) 处下载最新的版本
 2. 双击 `NikkiAutoPlayer.exe` 运行该程序（或者在终端中运行以下命令）
 ```bash
 ./NikkiAutoPlayer.exe
