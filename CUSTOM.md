@@ -34,9 +34,11 @@ e.g. (先别太关注melody是什么鬼，其编写格式稍后会介绍到)
 ## 编写你的谱子
 
 ### 基本格式
-此项目提供了一个简单的，能将任意可读的二进制文本文件转换为`{score}.json`的工具，你可以先在任意文本编辑器中编写你的谱子，然后使用`melody_trans.py`来转换。
+此项目提供了一个简单的，能将任意可读的二进制文本文件转换为`{score}.json`的工具，你可以先在任意文本编辑器中编写你的谱子，然后使用本程序的`导入乐谱`来转换。
 
-Nikki Auto Player演奏谱子是先将melody的数据转换为Python的tuple，按顺序执行，每个tuple的第一个元素是音符，第二个元素是音符的时值。
+> P.S. Dev请用`./test/trans.py`来测试
+
+*Nikki Auto Player 演奏谱子是先将melody的数据转换为Python的 **tuple**，按顺序执行，每个tuple的第一个元素是音符，第二个元素是音符的时值。
 格式为：`('notes', 'duration')`，比如：
 ```python
 melody = [
@@ -90,11 +92,11 @@ bpm 120 #为空则默认为 120
 ```
 以上内容将被解析为:
 ```python
-melodyData.version = "1.0"
-melodyData.instrument = "violin"
-melodyData.music_name = "Example"
-melodyData.bpm = 120
-melody = [
+melodyData.version: float = 1.0
+melodyData.instrument: str = "violin"
+melodyData.music_name: str = "Example"
+melodyData.bpm: int = 120
+melody: tuple = [
     ("5", "b"),
     ("6", "b_"),
     ("2#", "b_"),
@@ -122,3 +124,15 @@ melody = [
     ('5#', 'b__'),
 ]
 ```
+### 分割Bar
+为了方便检查乐谱的节奏，可以在乐谱中添加`@@`符号来分割小节，如：
+```text
+@@ bar1
+5 b
+6 b_
+...
+@@ bar2
+2 b
+3 b_
+```
+其中`bar1`和`bar2`为小节的名称(可自定义名称)，在演奏时会在控制台输出，方便检查乐谱的节奏。

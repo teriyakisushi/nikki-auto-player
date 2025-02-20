@@ -1,8 +1,8 @@
 <h2 align="center">Nikki Auto Player</h2>
 
-# Overview 🌟
-This is a program that automatically plays custom music scores using instruments in the game [Infinity Nikki](https://infinitynikki.nuanpaper.com/home). It supports creating original scores or importing existing ones.
-# Features ✨
+## Overview 🌟
+本项目是为[无限暖暖](https://infinitynikki.nuanpaper.com/home)游戏开发的自动演奏工具，可通过程序自动演奏自定义乐谱。支持原创乐谱创作和现有乐谱导入功能。
+## Features ✨
 - ⌨️ 自定义按键映射
 
 - 🔄 支持长按/短按演奏
@@ -11,19 +11,19 @@ This is a program that automatically plays custom music scores using instruments
 
 - 📝 灵活的乐谱格式
 
-# Usage 🚀
+## 使用指南 🚀
 
 **Dev**
 确保你的操作系统含有 [Python 3.10+](https://www.python.org/downloads/) 环境，可选`pyinstaller`和`upx`
-1. Clone the repository
+1. 克隆本仓库
 ```bash
 git clone https://github.com/teriyakisushi/nikki-auto-player.git
 ```
-2. Install the required packages
+2. 安装依赖包
 ```bash
 pip install -r requirements.txt
 ```
-3. Run and test the program
+3. 运行&测试程序
 ```bash
 python main.py
 ```
@@ -32,33 +32,33 @@ python main.py
 ```bash
 pyinstaller build.spec --clean
 ```
-如果你额外添加了其他模块，可运行`gen_spec.py` 生成新的spec文件
+如需添加新模块，可运行`gen_spec.py`生成新的spec配置文件
 
 
 **User**
 1. 从 [Releases](https://github.com/teriyakisushi/nikki-auto-player/releases) 处下载最新的版本
-2. 双击 `NikkiAutoPlayer.exe` 运行该程序（或者在终端中运行以下命令）
+2. 双击 `NikkiAutoPlayer.exe` 运行该程序（或者在终端中运行）
 ```bash
 ./NikkiAutoPlayer.exe
 ```
 
-选择，并播放Demo乐谱《千本樱》进行验证
+首次运行时建议选择并试听Demo乐谱《千本樱》进行功能验证
 
-## 编辑配置文件
+### 编辑配置文件
 
-打开并修改`config.json`文件，编辑`user_config`字段的内容
+打开并修改`config.yaml`文件，编辑`user_config`字段的内容
 
-- `score_dir`: 乐谱文件夹路径, 默认为目录下的`scores`
-- `global_bpm`: 全局BPM, 默认为`120`
-- `beat`: 乐谱的拍子数, 默认为`4`，即4/4拍
-- `hold_threshold`: 长按阈值, 默认为 0.05s
+- `score_dir`: 乐谱文件夹路径 (默认:同级目录下的`scores`)
+- `global_bpm`: 全局BPM, (默认:120)
+- `beat`: 乐谱的拍子数  (默认:4，即4/4拍)
+- `hold_threshold`: 长按阈值 *(默认:0.05s)*
 - `enable_key`：启动演奏按键
 - `exit_key`：退出演奏按键
-- `play_interput`：演奏中断按键（当前版本无效）
-- `debug`: true/false, 调试模式(输出日志)
-- `key_bind`: 按键映射表
+- `play_interput`：是否允许中断演奏（当前版本按退出键中断）
+- `debug`: true/false, 调试日志输出
+- `key_bind`: 自定义按键映射表
 
 
-# Custom your score 🎵
+## Custom your score 🎵
 
 详细请看 [CUSTOM.md](CUSTOM.md)
