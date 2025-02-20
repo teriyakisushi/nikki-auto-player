@@ -1,4 +1,8 @@
-<h2 align="center">Nikki Auto Player</h2>
+<h2 align="center">
+<div>
+<img src="./asset/violin.ico" width=38  />
+Nikki Auto Player
+</h2>
 
 ## Overview 🌟
 本项目是为[无限暖暖](https://infinitynikki.nuanpaper.com/home)游戏开发的自动演奏工具，可通过程序自动演奏自定义乐谱。支持原创乐谱创作和现有乐谱导入功能。
@@ -14,6 +18,7 @@
 ## 使用指南 🚀
 
 **Dev**
+
 确保你的操作系统含有 [Python 3.10+](https://www.python.org/downloads/) 环境，可选`pyinstaller`和`upx`
 1. 克隆本仓库
 ```bash
