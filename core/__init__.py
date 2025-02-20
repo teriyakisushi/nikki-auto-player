@@ -5,8 +5,10 @@ from core.score import Score
 from core.melody import Melody
 from loguru import logger
 
-# remove default logger
-logger.remove(0)
+try:
+    logger.remove()
+except ValueError:
+    pass
 
 # logs dir
 log_dir = Path("logs")
