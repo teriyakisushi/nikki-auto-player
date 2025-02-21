@@ -36,7 +36,7 @@
 
 ```bash
 # Clone the repository
-git clone
+git clone https://github.com/teriyakisushi/nikki-auto-player.git
 
 # Install dependencies
 pip install -r requirements.txt
@@ -45,7 +45,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-### Build Executable
+### Build Executable File (Optional)
 
 ```bash
 pyinstaller build.spec --clean

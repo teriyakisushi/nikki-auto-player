@@ -4,7 +4,7 @@
 </p>
   <img src="./asset/violin.ico" width="80" />
   <h1>Nikki Auto Player</h1>
-  <p>为《无限暖暖》打造的自动演奏工具</p>
+  <p>《无限暖暖》游戏的自动演奏工具</p>
   
   <p>
     <img src="https://img.shields.io/badge/Python-3.10+-blue.svg" alt="Python Version">
@@ -27,9 +27,9 @@
 
 1. 从 [Releases](https://github.com/teriyakisushi/nikki-auto-player/releases) 下载最新版本
 2. 运行程序:
+   - 解压至任意目录，双击 `NikkiAutoPlayer.exe` 运行
+   - 或通过终端
    ```bash
-   双击 NikkiAutoPlayer.exe
-   # 或通过命令行运行
    ./NikkiAutoPlayer.exe
    ```
 3. 首次运行推荐选择Demo乐谱《千本樱》进行功能体验
