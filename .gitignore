@@ -8,3 +8,4 @@ core/__pycache__/score.cpython-310.pyc
 utils/__pycache__/__init__.cpython-310.pyc
 utils/__pycache__/logs.cpython-310.pyc
 utils/__pycache__/tools.cpython-310.pyc
+.flake8
