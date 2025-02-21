@@ -47,11 +47,11 @@ pip install -r requirements.txt
 python main.py
 ```
 
-### 构建可执行文件
+### 构建 windows 可执行文件(Optional)
 ```bash
 pyinstaller build.spec --clean
 ```
-> 如需添加新模块，请先运行 `gen_spec.py` 生成新的spec配置文件
+> 如需添加新模块，请先运行 `gen_spec.py` 生成新的spec配置文件，该脚本会自动分析所需依赖
 
 ## ⚙️ 配置说明
 
