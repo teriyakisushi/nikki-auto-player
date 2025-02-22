@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="./asset/violin.ico" width="80" />
+  <img src="violin.ico" width="80" />
   <h1>Nikki Auto Player</h1>
   <p>An Automated Music Playing Tool for *Infinity Nikki</p>
   

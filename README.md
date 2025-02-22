@@ -1,8 +1,8 @@
 <div align="center">
 <p align="right">
-<a href="README_EN.md">English</a> | <a href="README.md">中文</a>
+<a href="./docs/README_EN.md">English</a> | <a href="README.md">中文</a>
 </p>
-  <img src="./asset/violin.ico" width="80" />
+  <img src="./docs/violin.ico" width="80" />
   <h1>Nikki Auto Player</h1>
   <p>《无限暖暖》游戏的自动演奏工具</p>
   
