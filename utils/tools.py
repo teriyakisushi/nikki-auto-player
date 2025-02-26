@@ -110,7 +110,7 @@ def calculate_duration(beat_value=None, bpm=None):
     if beat_value == 'b_':  # 半拍
         return cur_beat * 0.5
 
-    if beat_value == 'b__':  # 四分之一拍
+    if beat_value == 'b__':  # 四分之一拍(十六分音符)
         return cur_beat * 0.25
 
     if beat_value.startswith('b/'):
