@@ -93,7 +93,7 @@ def create_config() -> bool:
                 {'fa': 'f'}, {'so': 'g'}, {'la': 'h'},
                 {'ti': 'j'}, {'do#': 'q'}, {'re#': 'w'},
                 {'mi#': 'e'}, {'fa#': 'r'}, {'so#': 't'},
-                {'la#': 'y'}, {'ti#': 'u'}
+                {'la#': 'y'}, {'ti#': 'u'}, {'sharp': 'shift'}
             ]
         }
     }
