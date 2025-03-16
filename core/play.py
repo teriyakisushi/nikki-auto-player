@@ -10,11 +10,9 @@ from core import config, Melody
 GLOBAL_BPM = config.global_bpm
 
 
-def melody_play(melody: Melody):
+def melody_play(melody: Melody) -> None:
     '''
-    Returns:
-        bool: True - done
-              False - interrupt or exit
+    播放旋律数据
     '''
     pyautogui.FAILSAFE = True
     log("Action: Playing melody...", level="INFO")
@@ -22,12 +20,8 @@ def melody_play(melody: Melody):
     cur_notes = []  # this section's notes
     current_bpm = melody.bpm
 
-    # logger.info(f"Cur: {melody.melody}")
-
     # 预处理旋律数据
     pmelody = [tools.process_melody_note(note_tuple) for note_tuple in melody.melody]
-
-    # logger.info(pmelody)
 
     for i, (note, beat_value) in enumerate(pmelody):
         # check if exit

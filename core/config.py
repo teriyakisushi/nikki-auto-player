@@ -25,7 +25,10 @@ class Config:
         # key_mapping
         self.key_mapping: dict = self._key_mapping_(self.get("user_config", {}).get("key_bind", []))
 
-    def read_config(self):
+    def read_config(self) -> dict:
+        ''''
+        读取配置文件
+        '''
         # make sure config file exists
         if not os.path.exists(self.config_path):
             self.is_config_not_exist = True
@@ -46,6 +49,9 @@ class Config:
             return {}
 
     def _key_mapping_(self, key_bind: list) -> dict:
+        """"
+        键位映射
+        """
         _to_number_ = {
             'do': '1', 're': '2', 'mi': '3', 'fa': '4',
             'so': '5', 'la': '6', 'ti': '7',
@@ -68,11 +74,14 @@ class Config:
 
         return mapping
 
-    def get(self, key, default=None):
+    def get(self, key, default=None) -> dict:
         return self.config.get(key, default)
 
 
 def create_config() -> bool:
+    """"
+    创建默认配置文件
+    """
     DEFAULT_CONFIG = {
         'nk_app': {
             'version': 1.0,
