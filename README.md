@@ -71,7 +71,7 @@ pyinstaller build.spec --clean
 
 ## 📝 自定义乐谱
 
-请参考 [CUSTOM.md](CUSTOM.md) 了解更多
+请参考 [CUSTOM.md](docs/CUSTOM.md) 了解更多
 
 ## 📄 LICENSE
 

@@ -5,7 +5,6 @@ from loguru import logger
 from utils.logs import log
 from . import press_key as pk
 from core import config, Melody
-# from rich import print as rprint
 
 GLOBAL_BPM = config.global_bpm
 
