@@ -230,7 +230,7 @@ def melody_to_json(file_path: str) -> bool:
         with open(file_path, 'r', encoding='utf-8') as f:
             lines = [line.strip() for line in f.readlines() if line.strip() and not line.startswith('//')]
 
-        # 解析头部信息
+        # head fields
         current_line = 0
         header_fields = {"version": "nikki_player_version", "instrument": "instrument", "music_name": "music_name", "bpm": "bpm"}
 
@@ -286,6 +286,21 @@ def melody_to_json(file_path: str) -> bool:
 
     return False
 
+
+# melody to json v2
+# 比较v1的区别是能够读取整行的melody
+def melody_to_json_v2(file_path: str) -> bool:
+    try:
+        json_data = {
+            "nikki_player_version": "1.0",
+            "instrument": "violin",
+            "music_name": "untitled",
+            "bpm": 120,
+            "melody": []
+        }
+
+    except Exception as e:
+        logger.error(f"err: {str(e)}")
 
 '''
 if __name__ == "__main__":
