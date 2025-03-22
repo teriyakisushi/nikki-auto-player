@@ -10,7 +10,6 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 import rich.box as box
-# from rich import print as rprint
 
 console = Console()
 enable = tools.get_vk_code(config.enable_key)
@@ -58,13 +57,9 @@ def _choose_option() -> int:
     elif op == "3":
         return 3
     elif op == "4":
-        # rprint("[bright_yellow]See you 😊! [/bright_yellow]")
-        # logger.info("Closing...")
         log("See you 😊!", style="bright_yellow", level="INFO")
         sys.exit(0)
     else:
-        # rprint("[red]Invalid option[/red]")
-        # logger.error("Invalid option")
         log("Invalid option", style="bright_red", level="ERROR")
 
 
@@ -152,8 +147,6 @@ def _start_():
 
 
 def _wait_for_key() -> bool:
-    # enable_code = ord(config.enable_key.upper())
-    # exit_code = ord(config.exit_key.upper())
 
     while True:
         if pk.is_key_pressed(enable):
@@ -172,8 +165,6 @@ def _import_():
     trans_dir = Path("trans")
 
     if not trans_dir.exists():
-        # rprint("[red]Trans dir not exists! check your file![/red]")
-        # logger.error("Trans dir not exists! check your file!")
         log("ERROR: Trans dir not exists! check your file!", style="bright_red", level="ERROR")
         return
 
@@ -183,8 +174,6 @@ def _import_():
     ]
 
     if not files_process:
-        # rprint("[yellow]没有找到可转换的文件[/yellow]")
-        # logger.warning("没有找到可转换的文件")
         log("WARNING: 没有找到可转换的文件", style="bright_yellow", level="WARNING")
         return
 
@@ -196,18 +185,12 @@ def _import_():
                 file_cnt += 1
 
         except Exception as e:
-            # rprint(f"[red]处理 {file.name} 时出错: {str(e)}[/red]")
-            # logger.error(f"处理 {file.name} 时出错: {str(e)}")
             log(f"ERROR: 处理 {file.name} 时出错: {str(e)}", style="bright_red", level="ERROR")
             continue
 
     if file_cnt:
-        # rprint(f"[green]成功转换 {file_cnt} 个文件[/green]")
-        # logger.success(f"成功转换 {file_cnt} 个文件")
         log(f"SUCCESS: 成功转换 {file_cnt} 个文件", style="bright_green", level="SUCCESS")
     else:
-        # rprint("[yellow]没有找到可转换的文件[/yellow]")
-        # logger.warning("没有找到可转换的文件")
         log("WARNING: 没有找到可转换的文件", style="bright_yellow", level="WARNING")
 
 

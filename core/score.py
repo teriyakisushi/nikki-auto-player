@@ -44,3 +44,6 @@ class Score:
 
     def get_score_list(self) -> list:
         return [Path(file).name for file in self.score_files]
+
+    def __str__(self):
+        return f"Score Files: {self.score_files}"
