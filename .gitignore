@@ -9,3 +9,4 @@ utils/__pycache__/__init__.cpython-310.pyc
 utils/__pycache__/logs.cpython-310.pyc
 utils/__pycache__/tools.cpython-310.pyc
 .flake8
+logs/2025-03-23.log
