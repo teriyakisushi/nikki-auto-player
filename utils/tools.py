@@ -113,6 +113,9 @@ def calculate_duration(beat_value=None, bpm=None):
     if beat_value == 'b__':  # 四分之一拍(十六分音符)
         return cur_beat * 0.25
 
+    if beat_value == 'b___':  # 八分之一拍(三十二分音符)
+        return cur_beat * 0.125
+
     if beat_value.startswith('b/'):
         d = int(beat_value[2:])
         if not d:
@@ -301,6 +304,7 @@ def melody_to_json_v2(file_path: str) -> bool:
 
     except Exception as e:
         logger.error(f"err: {str(e)}")
+
 
 '''
 if __name__ == "__main__":
