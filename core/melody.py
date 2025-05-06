@@ -9,6 +9,7 @@ class Melody:
         self.music_name: str = self.melody_info.get('music_name', 'untitled')
         self.instrument: str = self.melody_info.get('instrument', 'violin')
         self.bpm: int = self.melody_info.get('bpm', 120)
+        self.timeSig: str = self.melody_info.get('timeSig', '4/4')
         self.melody: tuple = tuple(self.melody_info.get('melody', []))
 
     def _melody_file_parser(self, file_path: str) -> dict:

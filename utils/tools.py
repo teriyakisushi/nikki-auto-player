@@ -70,7 +70,8 @@ def get_vk_code(key_name: str) -> int:
 
 
 # calculate duration
-def calculate_duration(beat_value=None, bpm=None):
+def calculate_duration(beat_value=None, bpm=None, time_signature=None) -> float:
+
     """
     计算音符持续时间
 
@@ -83,6 +84,20 @@ def calculate_duration(beat_value=None, bpm=None):
     """
     # 使用当前部分的 BPM 或 谱子全局 BPM
     cur_beat = 60 / (bpm if bpm else GLOBAL_BPM)
+
+    # Time Signature, default is 4/4
+    if time_signature is None:
+        time_signature = '4/4'
+
+    # Analyze time signature
+    try:
+        numerator, denominator = map(int, time_signature.split('/'))
+    except (ValueError, AttributeError):
+        logger.warning(f"Invalid time signature: {time_signature}, using 4/4")
+        numerator, denominator = 4, 4
+
+    # 在不同拍号下，一拍的时值保持不变，但每小节的总拍数会变化
+    # 例如，3/4拍的小节有3拍，而4/4拍的小节有4拍
 
     if beat_value is None or beat_value == 'b':
         return cur_beat
@@ -122,6 +137,17 @@ def calculate_duration(beat_value=None, bpm=None):
             raise ValueError("Invalid format!")
         return cur_beat / d
 
+    if beat_value == 'bar':  # 一小节
+        return cur_beat * numerator
+
+    if beat_value.startswith('bar*'):  # 小节乘数
+        try:
+            bar_count = float(beat_value[4:])
+            return (cur_beat * numerator) * bar_count
+        except ValueError:
+            logger.error(f"Invalid bar format: {beat_value}")
+            return cur_beat * numerator
+
     return cur_beat
 
 
@@ -151,16 +177,6 @@ def read_melody(melody: list = None) -> List[Dict[str, Union[str, int, list]]]:
             if not all(field in data for field in required_fields):
                 logger.warning(f"{file_path} probably doesn't match the melody file format\n该文件可能非本项目支持的乐谱文件格式")
                 continue
-
-            # check version
-            if not is_support_version(data['nikki_player_version']):
-                pass
-
-            # logger.success(f"{file_path} Loaded")
-            # logger.info(f"Version: {data['nikki_player_version']}")
-            # logger.info(f"Instructment: {data['instrument']}")
-            # logger.info(f"Music Name: {data['music_name']}")
-            # logger.info(f"BPM: {data['bpm']}")
 
             all_melodies.append(data)
 
@@ -205,21 +221,6 @@ def process_melody_note(note_tuple):
     return note_tuple
 
 
-# check version
-def is_support_version(cur_version: str) -> bool:
-    """
-    Args:
-        cur_version (str)
-
-    Returns:
-        bool
-    """
-    if cur_version != '1.0':
-        logger.warning(f"Current version probably doesn't match the melody file: {cur_version}")
-        return False
-    return True
-
-
 def melody_to_json(file_path: str) -> bool:
     try:
         json_data = {
@@ -227,6 +228,7 @@ def melody_to_json(file_path: str) -> bool:
             "instrument": "violin",
             "music_name": "untitled",
             "bpm": 120,
+            "timeSig": "4/4",
             "melody": []
         }
 
@@ -235,7 +237,7 @@ def melody_to_json(file_path: str) -> bool:
 
         # head fields
         current_line = 0
-        header_fields = {"version": "nikki_player_version", "instrument": "instrument", "music_name": "music_name", "bpm": "bpm"}
+        header_fields = {"version": "nikki_player_version", "instrument": "instrument", "music_name": "music_name", "bpm": "bpm", "timeSig": "timeSig"}
 
         for i, line in enumerate(lines):
             parts = line.split(maxsplit=1)
@@ -306,11 +308,3 @@ def melody_to_json_v2(file_path: str) -> bool:
         logger.error(f"err: {str(e)}")
 
 
-'''
-if __name__ == "__main__":
-    try:
-        melody_data = read_melody(file_path='miku.json', is_file=True)
-        print(melody_data[-4:-5])
-    except Exception as e:
-        raise e
-'''

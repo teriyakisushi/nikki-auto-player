@@ -18,6 +18,7 @@ def melody_play(melody: Melody) -> None:
     next_note_time = time.time()
     cur_notes = []  # this section's notes
     current_bpm = melody.bpm
+    current_timeSignature = "4/4"
 
     # 预处理旋律数据
     pmelody = [tools.process_melody_note(note_tuple) for note_tuple in melody.melody]
@@ -41,6 +42,15 @@ def melody_play(melody: Melody) -> None:
                 log(f"Invalid BPM value: {beat_value}", style="red", level="ERROR")
                 continue
 
+        if note == "timeSig":
+            try:
+                current_timeSignature = beat_value
+                log(f"Time signature changed to: {current_timeSignature}", style="cyan", level="INFO")
+                continue
+            except Exception:
+                log(f"Invalid time signature value: {beat_value}", style="red", level="ERROR")
+                continue
+
         # 遇到新的Section时，先输出之前收集的音符
         if note == '@@':
             if cur_notes:
@@ -52,12 +62,12 @@ def melody_play(melody: Melody) -> None:
 
         try:
             # 使用当前BPM计算时值
-            duration = tools.calculate_duration(beat_value, current_bpm)
+            duration = tools.calculate_duration(beat_value, current_bpm, current_timeSignature)
 
             # 休止符
             if note == 0 or note == '0':
                 cur_notes.append('0')
-                time.sleep(duration * 0.96)
+                time.sleep(duration * 0.97)
             else:
                 try:
                     key = config.key_mapping[str(note)].lower()
