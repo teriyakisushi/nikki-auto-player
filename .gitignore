@@ -3,5 +3,5 @@ utils/__pycache__/*.pyc
 .flake8
 logs/*.log
 .vs/*
-score/*
-trans/*
+score/local/*
+trans/local/*
