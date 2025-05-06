@@ -88,10 +88,11 @@ f
 你可以在任意文本编辑器中编写你的谱子，格式如下(可完全空，但建议写上bpm)
 
 ```python
-version 1.0 #为空则默认为1.0
-instrument violin #为空则默认为 violin
-music_name Example #为空则默认为 unnamed score
-bpm 120 #为空则默认为 120
+version 1.0 # 为空则默认为1.0
+instrument violin # 为空则默认为 violin
+music_name Example # 为空则默认为 unnamed score
+bpm 120 # 为空则默认为 120
+timeSig 4/4 # 为空则默认为 4/4，实验性功能
 5 b
 6 b_
 2# b_
