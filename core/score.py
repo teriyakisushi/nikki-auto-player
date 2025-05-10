@@ -34,8 +34,6 @@ class Score:
 
             if not score_files:
                 logger.warning(f"No score files (.json) found in: {full_score_dir}")
-            # else:
-            #     logger.info(f"Loaded {len(score_files)} score files")
 
             return score_files
         except Exception as e:

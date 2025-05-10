@@ -290,21 +290,3 @@ def melody_to_json(file_path: str) -> bool:
         logger.error(f"err: {str(e)}")
 
     return False
-
-
-# melody to json v2
-# 比较v1的区别是能够读取整行的melody
-def melody_to_json_v2(file_path: str) -> bool:
-    try:
-        json_data = {
-            "nikki_player_version": "1.0",
-            "instrument": "violin",
-            "music_name": "untitled",
-            "bpm": 120,
-            "melody": []
-        }
-
-    except Exception as e:
-        logger.error(f"err: {str(e)}")
-
-

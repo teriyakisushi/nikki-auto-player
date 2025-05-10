@@ -79,9 +79,6 @@ def _wait_for_action() -> int:
         if pk.is_key_pressed(enable):
             return 2
 
-        # if pk.is_key_pressed(exit_code):
-        #     return 0
-
         if msvcrt.kbhit():
             char = msvcrt.getch().decode('utf-8')
 
@@ -156,12 +153,7 @@ def _wait_for_key() -> bool:
             return False
 
 
-def _check_():
-    pass
-
-
 def _import_():
-    # rprint("[cyan]请将旋律文件放入目录下的 trans 文件夹中[/cyan]")
     trans_dir = Path("trans")
 
     if not trans_dir.exists():

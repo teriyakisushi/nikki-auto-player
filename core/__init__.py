@@ -16,7 +16,6 @@ log_dir.mkdir(exist_ok=True)
 
 # custom logger
 logger.add(
-    # sys.stderr,
     log_dir / "{time:YYYY-MM-DD}.log",
     format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> - <level>{level}</level> - <level>{message}</level>",
     enqueue=True,
