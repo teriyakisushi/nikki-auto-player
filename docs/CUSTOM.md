@@ -55,9 +55,13 @@ melody = [
 1 2 3 4 5 6 7
 do re mi fa so la ti
 
-# 升号
+# 高音
 1# 2# 4# 5# 6# 7#
 do# re# fa# so# la# ti#
+
+# 降音
+1/ 2/ 3/ 4/ 5/ 6/ 7/
+do/ re/ mi/ fa/ so/ la/ ti/
 
 # 升号（半音，默认是shift键）
 sharp
