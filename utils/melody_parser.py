@@ -43,10 +43,14 @@ def melody_to_json(file_path: str = '') -> bool:
         with open(file_path, 'r', encoding='utf-8') as f:
             lines = [line.strip() for line in f.readlines() if line.strip() and not line.startswith('//')]
 
+        if lines[0].startswith('---'):
+            # v2 format detected, skipping
+            logger.info(f"Skipping {file_path}, Its v2 melody file")
+            return False
+
         # head fields
         current_line = 0
         header_fields = {"version": "nikki_player_version", "instrument": "instrument", "music_name": "music_name", "bpm": "bpm", "timeSig": "timeSig"}
-
         for i, line in enumerate(lines):
             parts = line.split(maxsplit=1)
             if len(parts) == 2 and parts[0].lower() in header_fields:
