@@ -64,11 +64,20 @@ def calculate_duration(beat_value=None, bpm=None, time_signature=None) -> float:
     if beat_value == 'b_':  # 半拍
         return cur_beat * 0.5
 
-    if beat_value == 'b__':  # 四分之一拍(十六分音符)
+    if beat_value == 'b__':  # 十六分音符
         return cur_beat * 0.25
 
-    if beat_value == 'b___':  # 八分之一拍(三十二分音符)
+    if beat_value == 'b___':  # 三十二分音符
         return cur_beat * 0.125
+
+    if beat_value == '.':  # 附点
+        return cur_beat * 1.5
+
+    if beat_value == '._':  # 附点2
+        return cur_beat * 0.75
+
+    if beat_value == '.__':  # 附点3
+        return cur_beat * 0.375
 
     # 根据-的数量返回cur_beat的时长
     # (notes, -) 即 (notes, beat*2)

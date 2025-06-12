@@ -45,3 +45,10 @@ class Score:
 
     def __str__(self):
         return f"Score Files: {self.score_files}"
+
+    def reload(self):
+        """
+        Reload the score files.
+        """
+        self.score_files = self.get_score_files()
+        logger.info(f"Score files reloaded. Total: {len(self.score_files)} files.")
