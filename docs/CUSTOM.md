@@ -150,3 +150,6 @@ melody = [
 3 b_
 ```
 其中`bar1`和`bar2`为小节的名称(可自定义名称)，在演奏时会在控制台输出
+
+## v2 parser
+v2版本的解析器在此基础上，支持编写行多个音符，添加更加简便的编写格式，体验请换到[v2](https://github.com/teriyakisushi/nikki-auto-player/tree/v2)分支
