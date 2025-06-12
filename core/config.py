@@ -20,6 +20,7 @@ class Config:
         self.enable_key: str = self.get("user_config", {}).get("enable_key", "C")
         self.exit_key: str = self.get("user_config", {}).get("exit_key", "ESC")
         self.hold_threshold: float = self.get("user_config", {}).get("hold_threshold", 0.05)
+        self.humanize: bool = self.get("user_config", {}).get("humanize", True)
         self.debug: bool = self.get("user_config", {}).get("debug", False)
 
         # key_mapping
@@ -98,6 +99,7 @@ def create_config() -> bool:
             'enable_key': 'C',
             'exit_key': 'ESC',
             'play_interrupt': False,
+            'humanize': False,
             'debug': False,
             'key_bind': [
                 {'do': 'a'}, {'re': 's'}, {'mi': 'd'},

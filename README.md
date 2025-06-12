@@ -66,8 +66,12 @@ pyinstaller build.spec --clean
 | enable_key     | 启动演奏热键   | C                             |
 | exit_key       | 退出演奏热键   | ESC                           |
 | play_interput  | 允许中断演奏   | 与`exit_key`一致              |
+| humanize       | 人性化演奏开关 | false                         |
 | debug          | 调试日志开关   | false                         |
 | key_bind       | 按键映射表     | -                             |
+
+> 关于 **`humanize`** 配置：
+> 开启后会随机调整音符的演奏时间，模拟人类演奏的自然性。关闭时则严格按照乐谱时间演奏（由AI编写的代码，效果可能不行，有空会再研究一下）
 
 ## 📝 自定义乐谱
 

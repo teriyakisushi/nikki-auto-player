@@ -18,6 +18,10 @@ enable = get_vk_code(config.enable_key)
 exit_code = get_vk_code(config.exit_key)
 score_list = score.get_score_list()
 
+is_play_humanize = config.play_humanize
+if is_play_humanize:
+    from core import play_hum
+
 
 def is_config_not_exists() -> bool:
     return config.is_config_not_exist
@@ -163,7 +167,10 @@ def _start_():
                         break
 
                     try:
-                        play.melody_play(melody)
+                        if is_play_humanize:
+                            play.melody_play(melody)
+                        else:
+                            play_hum.melody_play(melody)
                     except Exception as e:
                         log(f"ERROR: 演奏出错: {str(e)}", style="bright_red", level="ERROR")
 
