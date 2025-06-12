@@ -1,6 +1,7 @@
 import time
 import pyautogui
 from utils import tools
+from utils.vkcode import get_vk_code
 from loguru import logger
 from utils.logs import log
 from . import press_key as pk
@@ -25,7 +26,7 @@ def melody_play(melody: Melody) -> None:
 
     for i, (note, beat_value) in enumerate(pmelody):
         # check if exit
-        if pk.is_key_pressed(tools.get_vk_code(config.exit_key)):
+        if pk.is_key_pressed(get_vk_code(config.exit_key)):
             log("演奏已中断", style="bright_yellow", level="INFO")
             return
 

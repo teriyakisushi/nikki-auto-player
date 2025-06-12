@@ -1,72 +1,7 @@
-import win32con
-import json
-from pathlib import Path
-from core import config, score
+from core import config
 from loguru import logger
-from typing import List, Dict, Union
 
 GLOBAL_BPM = config.get('user_config', {}).get('bpm', 120)
-
-
-# get vk code
-def get_vk_code(key_name: str) -> int:
-    """
-    string -> win32con.VK_*
-
-    Args:
-        key_name (str)
-    Returns:
-        int
-    """
-    key_mapping = {
-        'F1': win32con.VK_F1,
-        'F2': win32con.VK_F2,
-        'F3': win32con.VK_F3,
-        'F4': win32con.VK_F4,
-        'F5': win32con.VK_F5,
-        'F6': win32con.VK_F6,
-        'F7': win32con.VK_F7,
-        'F8': win32con.VK_F8,
-        'F9': win32con.VK_F9,
-        'F10': win32con.VK_F10,
-        'F11': win32con.VK_F11,
-        'F12': win32con.VK_F12,
-        'ESC': win32con.VK_ESCAPE,
-        'ESCAPE': win32con.VK_ESCAPE,
-        'TAB': win32con.VK_TAB,
-        'SPACE': win32con.VK_SPACE,
-        'RETURN': win32con.VK_RETURN,
-        'ENTER': win32con.VK_RETURN,
-        'BACKSPACE': win32con.VK_BACK,
-        'DELETE': win32con.VK_DELETE,
-        'DEL': win32con.VK_DELETE,
-        'CTRL': win32con.VK_CONTROL,
-        'CONTROL': win32con.VK_CONTROL,
-        'ALT': win32con.VK_MENU,
-        'SHIFT': win32con.VK_SHIFT,
-        'UP': win32con.VK_UP,
-        'DOWN': win32con.VK_DOWN,
-        'LEFT': win32con.VK_LEFT,
-        'RIGHT': win32con.VK_RIGHT,
-        'CAPSLOCK': win32con.VK_CAPITAL,
-        'NUMLOCK': win32con.VK_NUMLOCK,
-        'SCROLLLOCK': win32con.VK_SCROLL,
-    }
-
-    # Letter keys
-    for c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
-        key_mapping[c] = ord(c)
-
-    # Nums keys
-    for n in '0123456789':
-        key_mapping[n] = ord(n)
-
-    # case-insensitive
-    key_upper = key_name.upper()
-    if key_upper in key_mapping:
-        return key_mapping[key_upper]
-    else:
-        raise ValueError(f"这个按键不支持喵: {key_name}，请自行添加")
 
 
 # calculate duration
@@ -95,6 +30,10 @@ def calculate_duration(beat_value=None, bpm=None, time_signature=None) -> float:
     except (ValueError, AttributeError):
         logger.warning(f"Invalid time signature: {time_signature}, using 4/4")
         numerator, denominator = 4, 4
+
+    if denominator:
+        # for ignore ide warning
+        ...
 
     # 在不同拍号下，一拍的时值保持不变，但每小节的总拍数会变化
     # 例如，3/4拍的小节有3拍，而4/4拍的小节有4拍
@@ -131,6 +70,27 @@ def calculate_duration(beat_value=None, bpm=None, time_signature=None) -> float:
     if beat_value == 'b___':  # 八分之一拍(三十二分音符)
         return cur_beat * 0.125
 
+    # 根据-的数量返回cur_beat的时长
+    # (notes, -) 即 (notes, beat*2)
+    if beat_value.startswith('-'):
+        try:
+            dash_cnt = len(beat_value)
+            return cur_beat * (dash_cnt + 1)
+        except ValueError:
+            logger.error(f"Invalid format: {beat_value}")
+            return cur_beat
+
+    # 根据 _ 的数量返回cur_beat的时长
+    # 和上述的 b_, b__ ... 类似
+    # 一个 _ 表示半拍，按照 b_ 的规则处理
+    if beat_value.startswith('_'):
+        try:
+            und_cnt = len(beat_value)
+            return cur_beat / (und_cnt * 2)
+        except ValueError:
+            logger.error(f"Invalid format: {beat_value}")
+            return cur_beat
+
     if beat_value.startswith('b/'):
         d = int(beat_value[2:])
         if not d:
@@ -149,48 +109,6 @@ def calculate_duration(beat_value=None, bpm=None, time_signature=None) -> float:
             return cur_beat * numerator
 
     return cur_beat
-
-
-# read melody
-def read_melody(melody: list = None) -> List[Dict[str, Union[str, int, list]]]:
-    """
-    从全局score实例中读取并解析所有乐谱文件
-
-    Args:
-        melody (list, optional): 默认值设为None，用于向后兼容
-
-    Returns:
-        List[Dict]: 包含所有乐谱数据的列表，每个字典包含完整的乐谱信息
-    """
-    if melody is not None:
-        return melody
-
-    all_melodies = []
-
-    for file_path in score.score_files:
-        try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-
-            # check required args
-            required_fields = ['nikki_player_version', 'instrument', 'music_name', 'bpm', 'melody']
-            if not all(field in data for field in required_fields):
-                logger.warning(f"{file_path} probably doesn't match the melody file format\n该文件可能非本项目支持的乐谱文件格式")
-                continue
-
-            all_melodies.append(data)
-
-        except json.JSONDecodeError:
-            logger.error(f"JSON Decode Error: {file_path}")
-            continue
-        except FileNotFoundError:
-            logger.error(f"Could not Found: {file_path}")
-            continue
-        except Exception as e:
-            logger.error(f"{file_path}: {str(e)}")
-            continue
-
-    return all_melodies
 
 
 # process melody note
@@ -219,74 +137,3 @@ def process_melody_note(note_tuple):
             return (base_note, 'b_')
 
     return note_tuple
-
-
-def melody_to_json(file_path: str) -> bool:
-    try:
-        json_data = {
-            "nikki_player_version": "1.0",
-            "instrument": "violin",
-            "music_name": "untitled",
-            "bpm": 120,
-            "timeSig": "4/4",
-            "melody": []
-        }
-
-        with open(file_path, 'r', encoding='utf-8') as f:
-            lines = [line.strip() for line in f.readlines() if line.strip() and not line.startswith('//')]
-
-        # head fields
-        current_line = 0
-        header_fields = {"version": "nikki_player_version", "instrument": "instrument", "music_name": "music_name", "bpm": "bpm", "timeSig": "timeSig"}
-
-        for i, line in enumerate(lines):
-            parts = line.split(maxsplit=1)
-            if len(parts) == 2 and parts[0].lower() in header_fields:
-                field = header_fields[parts[0].lower()]
-                value = parts[1].strip()
-
-                if field == "bpm":
-                    try:
-                        value = int(value)
-                    except ValueError:
-                        logger.warning(f"Invalid BPM value: {value}, using default")
-                        continue
-                json_data[field] = value
-                current_line = i + 1
-            else:
-                break
-
-        # melody
-        melody_list = []
-        for line in lines[current_line:]:
-            if not line.strip() or line.startswith('//'):
-                continue
-
-            parts = line.split()
-            if len(parts) == 2:
-                note, duration = parts
-                melody_list.append([note, duration])
-            elif len(parts) == 1:
-                # set default duration to 0
-                melody_list.append([parts[0], "0"])
-
-        json_data["melody"] = melody_list
-
-        score_dir = Path("score")
-        score_dir.mkdir(exist_ok=True)
-
-        file_name = Path(file_path).name
-        transed_file = score_dir / f"{Path(file_name).stem}.json"
-
-        with open(transed_file, 'w', encoding='utf-8') as f:
-            json.dump(json_data, f, indent=4, ensure_ascii=False)
-
-        logger.success(f"Successfully converted {file_path} to {transed_file}")
-        return True
-
-    except FileNotFoundError:
-        logger.error(f"err: {file_path}")
-    except Exception as e:
-        logger.error(f"err: {str(e)}")
-
-    return False

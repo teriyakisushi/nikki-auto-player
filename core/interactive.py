@@ -3,8 +3,10 @@ import time
 import msvcrt
 from pathlib import Path
 from core import config, score, Melody, play, press_key as pk
-from utils import tools
+# from utils import tools
 from utils.logs import log
+from utils.vkcode import get_vk_code
+from utils.melody_parser import melody_parser
 from loguru import logger
 from rich.console import Console
 from rich.panel import Panel
@@ -12,8 +14,8 @@ from rich.text import Text
 import rich.box as box
 
 console = Console()
-enable = tools.get_vk_code(config.enable_key)
-exit_code = tools.get_vk_code(config.exit_key)
+enable = get_vk_code(config.enable_key)
+exit_code = get_vk_code(config.exit_key)
 
 
 def is_config_not_exists() -> bool:
@@ -31,7 +33,8 @@ def show_welcome():
         ("1. 开始演奏\n", "bright_white"),
         ("2. 检查乐谱\n", "bright_white"),
         ("3. 导入乐谱\n", "bright_white"),
-        ("4. 退出", "bright_white"),
+        ("4. Import Melody v2\n", "bright_white"),
+        ("5. 退出", "bright_white"),
 
     )
 
@@ -57,6 +60,8 @@ def _choose_option() -> int:
     elif op == "3":
         return 3
     elif op == "4":
+        return 4
+    elif op == "5":
         log("See you 😊!", style="bright_yellow", level="INFO")
         sys.exit(0)
     else:
@@ -153,7 +158,7 @@ def _wait_for_key() -> bool:
             return False
 
 
-def _import_():
+def _import_(version: int = 1):
     trans_dir = Path("trans")
 
     if not trans_dir.exists():
@@ -173,9 +178,12 @@ def _import_():
 
     for file in files_process:
         try:
-            if tools.melody_to_json(str(file)):
-                file_cnt += 1
-
+            if version == 1:
+                if melody_parser(version=1, file_path=file):
+                    file_cnt += 1
+            elif version == 2:
+                if melody_parser(version=2, file_path=file):
+                    file_cnt += 1
         except Exception as e:
             log(f"ERROR: 处理 {file.name} 时出错: {str(e)}", style="bright_red", level="ERROR")
             continue
@@ -210,5 +218,7 @@ def main():
                 break
             elif i == 3:
                 _import_()
+            elif i == 4:
+                _import_(version=2)
             else:
                 break

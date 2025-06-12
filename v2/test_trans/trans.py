@@ -68,6 +68,8 @@ def parse_header(header_text: str) -> dict:
 
 
 def expand_grouped_notes(line: str) -> str:
+    '''展开分组的音符表示法'''
+
     pattern = r'\(\s*([\d#\s]+)\s*\)(_+)'
 
     while re.search(pattern, line):
@@ -170,7 +172,6 @@ def bmelody_to_json(txt_file_path: str, json_file_path: str = None) -> str:
         result = parse_melody_file(txt_file_path)
 
         if json_file_path is None:
-            # 默认输出与输入同名但扩展名为.json的文件
             base_name = os.path.splitext(txt_file_path)[0]
             json_file_path = f"{base_name}.json"
 
