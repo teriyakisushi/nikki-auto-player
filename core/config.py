@@ -94,7 +94,7 @@ def create_config() -> bool:
             'score_dir': '/score',
             'global_bpm': 120,
             'beat': 4,
-            'hold_threshold': 0.05,
+            'hold_threshold': 0.01,
             'enable_key': 'C',
             'exit_key': 'ESC',
             'play_interrupt': False,

@@ -82,7 +82,7 @@ def melody_play(melody: Melody) -> None:
                     pk.hold_key(key, duration)
                 else:
                     pk.press_key(key)
-                    time.sleep(duration * 0.92)
+                    time.sleep(duration * 0.95)
 
             next_note_time = cur_time + duration
             time.sleep(min(0.01, duration * 0.05))

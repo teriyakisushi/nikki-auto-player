@@ -2,7 +2,7 @@ nk_app:
   version: 1.0
   lang: cn
 user_config:
-  score_dir: /score/local
+  score_dir: /score
   global_bpm: 120
   beat: 4
   hold_threshold: 0.05

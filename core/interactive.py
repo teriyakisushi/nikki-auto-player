@@ -35,7 +35,8 @@ def show_welcome():
         ("2. 检查乐谱\n", "bright_white"),
         ("3. 导入乐谱\n", "bright_white"),
         ("4. Import Melody v2\n", "bright_white"),
-        ("5. 退出", "bright_white"),
+        ("5. 重载乐谱\n", "bright_white"),
+        ("6. 退出", "bright_white"),
 
     )
 
@@ -62,9 +63,11 @@ def _choose_option() -> int:
         return 3
     elif op == "4":
         return 4
-    elif op == "5":
+    elif op == "6":
         log("See you 😊!", style="bright_yellow", level="INFO")
         sys.exit(0)
+    elif op == "5":
+        return 5
     else:
         log("Invalid option", style="bright_red", level="ERROR")
 
@@ -286,7 +289,7 @@ def main():
                 _import_()
             elif i == 4:
                 _import_(version=2)
-            elif i == 9:
+            elif i == 5:
                 _reload_()
             else:
                 break
