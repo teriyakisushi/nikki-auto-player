@@ -27,6 +27,7 @@ timeSig: 4/4
 | instrument | violin        | 乐器名称              |
 | bpm        | 120           | 每分钟节拍数          |
 | timeSig    | 4/4           | 拍号                  |
+| humanize   | false         | 模拟人类演奏的随机性  |
 
 
 
@@ -35,6 +36,7 @@ timeSig: 4/4
 - `instrument`：乐器名称，默认为 `violin` （不会对该字段进行验证，仅用于用户区分）
 - `bpm`: 默认为 `120`
 - `timeSig`: Time Signature，默认为 `4/4`
+- `humanize`: 默认为 `false`，开启则在演奏时会模拟人类演奏的随机性（如音符的轻微延迟等）
 
 
 3. 内容区域可用`@@`作为一个Bar，分隔出一行或者一节的音符，演奏时会在控制台输出，以检查节奏（非必须）。

@@ -80,6 +80,44 @@ class Config:
     def get(self, key, default=None) -> dict:
         return self.config.get(key, default)
 
+    def show_config(self):
+        """
+        显示当前配置
+        """
+        rprint("[bold green]当前配置:[/bold green]")
+        rprint(f"版本: {self.version}")
+        rprint(f"语言: {self.lang}")
+        rprint(f"乐谱目录: {self.score_dir}")
+        rprint(f"全局BPM: {self.global_bpm}")
+        rprint(f"节拍: {self.beat}")
+        rprint(f"启用键: {self.enable_key}")
+        rprint(f"退出键: {self.exit_key}")
+        rprint(f"长按阈值: {self.hold_threshold}")
+        rprint(f"Humanize: {'启用' if self.humanize else '禁用'}")
+        rprint(f"调试模式: {'启用' if self.debug else '禁用'}")
+        rprint("键位映射:")
+        for solfege, key in self.key_mapping.items():
+            rprint(f"{solfege}: {key}")
+
+    def log_out(self):
+        """
+        输出当前配置到日志
+        """
+        logger.info("当前配置:")
+        logger.info(f"版本: {self.version}")
+        logger.info(f"语言: {self.lang}")
+        logger.info(f"乐谱目录: {self.score_dir}")
+        logger.info(f"全局BPM: {self.global_bpm}")
+        logger.info(f"节拍: {self.beat}")
+        logger.info(f"启用键: {self.enable_key}")
+        logger.info(f"退出键: {self.exit_key}")
+        logger.info(f"长按阈值: {self.hold_threshold}")
+        logger.info(f"Humanize: {'启用' if self.humanize else '禁用'}")
+        logger.info(f"调试模式: {'启用' if self.debug else '禁用'}")
+        logger.info("键位映射:")
+        for solfege, key in self.key_mapping.items():
+            logger.info(f"{solfege}: {key}")
+
 
 def create_config() -> bool:
     """"

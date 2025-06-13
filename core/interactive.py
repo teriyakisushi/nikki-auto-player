@@ -18,7 +18,7 @@ enable = get_vk_code(config.enable_key)
 exit_code = get_vk_code(config.exit_key)
 score_list = score.get_score_list()
 
-is_play_humanize = config.play_humanize
+is_play_humanize = config.humanize
 if is_play_humanize:
     from core import play_hum
 
@@ -72,6 +72,8 @@ def _choose_option() -> int:
         sys.exit(0)
     elif op == "5":
         return 5
+    elif op == "config":
+        return 9
     else:
         log("Invalid option", style="bright_red", level="ERROR")
 
@@ -159,6 +161,8 @@ def _start_():
             if 1 <= score_num <= len(score_list):
                 melody = Melody(score.score_files[score_num - 1])
                 log(f"已加载乐曲: {melody.music_name}, 按下{config.enable_key}键开启演奏", style="bright_green", level="INFO")
+                if is_play_humanize:
+                    log("已启用 Humanize ", style="bright_red", level="INFO")
 
                 while True:
                     # wait for start
@@ -168,9 +172,9 @@ def _start_():
 
                     try:
                         if is_play_humanize:
-                            play.melody_play(melody)
-                        else:
                             play_hum.melody_play(melody)
+                        else:
+                            play.melody_play(melody)
                     except Exception as e:
                         log(f"ERROR: 演奏出错: {str(e)}", style="bright_red", level="ERROR")
 
@@ -251,6 +255,8 @@ def init():
     if is_config_not_exists():
         sys.exit(0)
 
+    config.log_out()
+
     # trans dir
     trans_dir = Path("trans")
     try:
@@ -298,5 +304,7 @@ def main():
                 _import_(version=2)
             elif i == 5:
                 _reload_()
+            elif i == 9:
+                config.show_config()
             else:
                 break
