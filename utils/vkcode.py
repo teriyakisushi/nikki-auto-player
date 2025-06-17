@@ -53,6 +53,9 @@ def get_vk_code(key_name: str) -> int:
     for n in '0123456789':
         key_mapping[n] = ord(n)
 
+    # Special characters
+    key_mapping['/'] = win32con.VK_OEM_2
+
     # case-insensitive
     key_upper = key_name.upper()
     if key_upper in key_mapping:
